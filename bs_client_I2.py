@@ -24,6 +24,6 @@ data = s.recv(1024)
 # On libère le socket TCP
 s.close()
 
-print(f"Le serveur a répondu {repr(data)}")
+print(repr(data))
 
 sys.exit(0)
