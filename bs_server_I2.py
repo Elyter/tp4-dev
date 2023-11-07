@@ -19,14 +19,6 @@ s.listen(1)
 while True:
 
     try:
-        # On reçoit 1024 bytes de données
-        data = conn.recv(1024)
-
-        # Si on a rien reçu, on continue
-        if data:
-            print(f"Le client {addr} a envoyé {data}")
-
-        # On répond au client un truc
         conn, addr = s.accept()
         print("Un client vient de se co et son IP c'est", addr)
         conn.send(b'Welcome to the server! You are now connected.')  # Envoie un message de succès au client
@@ -42,7 +34,7 @@ while True:
                 conn.send(b'Ptdr t ki ?')
             else:
                 conn.send(b'Mes respects humble humain.')
-                
+
     except socket.error:
         print("Error Occured.")
         break
