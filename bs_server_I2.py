@@ -21,13 +21,11 @@ while True:
     try:
         conn, addr = s.accept()
         print("Un client vient de se co et son IP c'est", addr)
-        conn.send(b'Welcome to the server! You are now connected.')  # Envoie un message de succès au client
         while True:
             data = conn.recv(1024)
             if not data:
                 break
 
-            print(f"Le client {addr} a envoyé {data}")
             if b'meo' in data:
                 conn.send(b'Meo a toi confrere.')
             elif b'waf' in data:
