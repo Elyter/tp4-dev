@@ -1,4 +1,6 @@
 import socket
+import sys
+import signal
 
 # On choisit une IP et un port où on va écouter
 host = '' # string vide signifie, dans ce conetxte, toutes les IPs de la machine
@@ -37,5 +39,10 @@ while True:
         print("Error Occured.")
         break
 
-# On ferme proprement la connexion TCP
-conn.close()
+
+def signal_handler(sig, frame):
+    conn.close()
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, signal_handler)
+signal.signal(signal.SIGTERM, signal_handler)
