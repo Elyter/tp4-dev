@@ -19,7 +19,6 @@ s.listen(1)
 # Petite boucle infinie (bah oui c'est un serveur)
 # A chaque itération la boucle reçoit des données et les traite
 while True:
-
     try:
         conn, addr = s.accept()
         print("Un client vient de se co et son IP c'est", addr)
@@ -38,7 +37,6 @@ while True:
     except socket.error:
         print("Error Occured.")
         break
-
 
 def signal_handler(sig, frame):
     conn.close()
