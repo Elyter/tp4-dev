@@ -2,6 +2,7 @@ import socket
 import sys
 import re
 import logging
+import os
 
 # Configuration du logging
 logging.basicConfig(level=logging.INFO, format='%(message)s')
