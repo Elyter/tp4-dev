@@ -12,7 +12,7 @@ log_handler.setLevel(logging.INFO)
 log_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))
 logging.getLogger('').addHandler(log_handler)
 
-if len(sys.argv) == 1:
+if len(sys.argv) > 1:
     if sys.argv[1] == '-h' or sys.argv[1] == '--help':
         print("Usage : python3 bs_server_II1.py [OPTION] [ARGUMENT]\n\n\t-h, --help \t\t Affiche l'aide\n\t-p, --port \t\t Spécifie le port sur lequel le serveur va écouter\n\n")
         sys.exit(0)
