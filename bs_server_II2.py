@@ -64,7 +64,7 @@ while True:
             if not data:
                 break
 
-            logging.info(f"Message reçu d'un client <{addr[0]}> : {message}")
+            logging.info(f"Message reçu d'un client <{addr[0]}> : {data.decode('utf-8')}")
 
             if b'meo' in data:
                 response = b'Meo a toi confrere.'
