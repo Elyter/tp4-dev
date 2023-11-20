@@ -5,9 +5,17 @@ import threading
 import time
 import logging
 from logging.handlers import TimedRotatingFileHandler
+import os
+
+log_folder = '/var/log/bs_server'
+
+if not os.path.exists(log_folder):
+    os.makedirs(log_folder)
+
+log_file_path = os.path.join(log_folder, 'bs_server.log')
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
-log_handler = TimedRotatingFileHandler('/var/log/bs_server/bs_server.log', when='midnight', interval=1, backupCount=7)
+log_handler = TimedRotatingFileHandler(log_file_path, when='midnight', interval=1, backupCount=7)
 log_handler.setLevel(logging.INFO)
 log_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))
 logging.getLogger('').addHandler(log_handler)
