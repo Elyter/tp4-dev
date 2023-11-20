@@ -16,7 +16,7 @@ print(f'Connecté avec succès au serveur {host} sur le port {port}')
 
 # Envoi de data bidon
 input_data = input("Que veut tu envoyé au serveur : ")
-if type(input_data) is str & input_data == "waf" | input_data == "meo":
+if type(input_data) is str and input_data == "waf" | input_data == "meo":
     try:
         s.sendall(input_data.encode())
     except Exception as e:
