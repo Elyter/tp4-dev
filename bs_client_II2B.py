@@ -8,7 +8,7 @@ import os
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 
 # Emplacement du fichier de log du client
-log_folder = '/var/log/bs_client/bs_client.log'
+log_folder = '/var/log/bs_client/'
 
 if not os.path.exists(log_folder):
     os.makedirs(log_folder)
