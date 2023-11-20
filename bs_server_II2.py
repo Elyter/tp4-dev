@@ -16,23 +16,22 @@ if len(sys.argv) == 1:
     if sys.argv[1] == '-h' or sys.argv[1] == '--help':
         print("Usage : python3 bs_server_II1.py [OPTION] [ARGUMENT]\n\n\t-h, --help \t\t Affiche l'aide\n\t-p, --port \t\t Spécifie le port sur lequel le serveur va écouter\n\n")
         sys.exit(0)
-
-# On choisit une IP et un port où on va écouter
-host = '' # string vide signifie, dans ce conetxte, toutes les IPs de la machine
-if sys.argv[1] == '-p' or sys.argv[1] == '--port':
-    if 0 <= int(sys.argv[2]) <= 65535:
-        if 0 <= int(sys.argv[2]) <= 1024:
-            raise ValueError("ERROR Le port spécifié est un port privilégié. Spécifiez un port au dessus de 1024.")
-            sys.exit(2)
+    # On choisit une IP et un port où on va écouter
+    host = '' # string vide signifie, dans ce conetxte, toutes les IPs de la machine
+    if sys.argv[1] == '-p' or sys.argv[1] == '--port':
+        if 0 <= int(sys.argv[2]) <= 65535:
+            if 0 <= int(sys.argv[2]) <= 1024:
+                raise ValueError("ERROR Le port spécifié est un port privilégié. Spécifiez un port au dessus de 1024.")
+                sys.exit(2)
+            else:
+                port = int(sys.argv[2])
+                logging.info("Lancement du serveur")
+                logging.info(f"Le serveur tourne sur {host}:{port}")
         else:
-            port = int(sys.argv[2])
-            logging.info("Lancement du serveur")
-            logging.info(f"Le serveur tourne sur {host}:{port}")
+            raise ValueError("ERROR Le port spécifié n'est pas un port possible (de 0 à 65535).")
+            sys.exit(1)
     else:
-        raise ValueError("ERROR Le port spécifié n'est pas un port possible (de 0 à 65535).")
-        sys.exit(1)
-else:
-    port = 13337 # port choisi arbitrairement
+        port = 13337 # port choisi arbitrairement
 
 # On crée un objet socket
 # SOCK_STREAM c'est pour créer un socket TCP (pas UDP donc)
