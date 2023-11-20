@@ -68,7 +68,7 @@ while True:
             logging.info(f"Message reçu d'un client <{addr[0]}> : {data.decode('utf-8')}")
 
             try:
-                result = str(sympify(expression))
+                result = str(sympify(data.decode('utf-8')))
                 conn.send(result.encode('utf-8'))
                 logging.info(f"Résultat envoyé au client <{addr[0]}> : {result}")
             except Exception as e:
