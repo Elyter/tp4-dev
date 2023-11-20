@@ -6,7 +6,6 @@ import time
 import logging
 from logging.handlers import TimedRotatingFileHandler
 import os
-from sympy import sympify 
 
 log_folder = '/var/log/bs_server'
 
@@ -68,14 +67,14 @@ while True:
             logging.info(f"Message reçu d'un client <{addr[0]}> : {data.decode('utf-8')}")
 
             try:
-                result = str(sympify(data.decode('utf-8')))
+                result = str(eval(data.decode('utf-8')))
                 conn.send(result.encode('utf-8'))
                 logging.info(f"Résultat envoyé au client <{addr[0]}> : {result}")
             except Exception as e:
                 error_message = f"Erreur lors de l'évaluation de l'expression : {str(e)}"
                 conn.send(error_message.encode('utf-8'))
                 logging.error(error_message)
-            
+                
     except socket.error:
         logging.error("Erreur lors de la connexion.")
         break
