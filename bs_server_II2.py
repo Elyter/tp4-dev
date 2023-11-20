@@ -1,6 +1,16 @@
 import socket
 import sys
 import signal
+import threading
+import time
+import logging
+from logging.handlers import TimedRotatingFileHandler
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+log_handler = TimedRotatingFileHandler('/var/log/bs_server/bs_server.log', when='midnight', interval=1, backupCount=7)
+log_handler.setLevel(logging.INFO)
+log_handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))
+logging.getLogger('').addHandler(log_handler)
 
 if sys.argv[1] == '-h' or sys.argv[1] == '--help':
     print("Usage : python3 bs_server_II1.py [OPTION] [ARGUMENT]\n\n\t-h, --help \t\t Affiche l'aide\n\t-p, --port \t\t Spécifie le port sur lequel le serveur va écouter\n\n")
@@ -15,6 +25,8 @@ if sys.argv[1] == '-p' or sys.argv[1] == '--port':
             sys.exit(2)
         else:
             port = int(sys.argv[2])
+            logging.info("Lancement du serveur")
+            logging.info(f"Le serveur tourne sur {host}:{port}")
     else:
         raise ValueError("ERROR Le port spécifié n'est pas un port possible (de 0 à 65535).")
         sys.exit(1)
@@ -36,24 +48,41 @@ s.listen(1)
 while True:
     try:
         conn, addr = s.accept()
-        print("Un client vient de se co et son IP c'est", addr)
+        logging.info(f"Un client <{addr[0]}> s'est connecté.")
         while True:
             data = conn.recv(1024)
             if not data:
                 break
 
+            logging.info(f"Message reçu d'un client <{addr[0]}> : {message}")
+
             if b'meo' in data:
-                conn.send(b'Meo a toi confrere.')
+                response = b'Meo a toi confrere.'
+                conn.send(response)
+                logging.info(f"Message envoyé au client <{addr[0]}> : {response.decode('utf-8')}")
             elif b'waf' in data:
-                conn.send(b'Ptdr t ki ?')
+                response = b'Ptdr t ki ?'
+                conn.send(response)
+                logging.info(f"Message envoyé au client <{addr[0]}> : {response.decode('utf-8')}")
             else:
-                conn.send(b'Mes respects humble humain.')
+                response = b'Mes respects humble humain.'
+                conn.send(response)
+                logging.info(f"Message envoyé au client <{addr[0]}> : {response.decode('utf-8')}")
 
     except socket.error:
-        print("Error Occured.")
+        logging.error("Erreur lors de la connexion.")
         break
 
+def check_no_clients():
+    while True:
+        time.sleep(60)
+        if not clients_connected:
+            logging.warning("Aucun client depuis plus d'une minute.")
+
+threading.Thread(target=check_no_clients).start()
+
 def signal_handler(sig, frame):
+    logging.info("Arrêt du serveur.")
     conn.close()
     sys.exit(0)
 
